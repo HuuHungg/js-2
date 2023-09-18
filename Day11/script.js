@@ -110,13 +110,16 @@ audio.addEventListener("timeupdate", function () {
     // update vào timer
     progress.style.width = `${value}%`;
     currentTime = this.currentTime; // Gán thời gian hiện tại vào biến currentTime;
+    handleKaraoke(currentTime);
   }
 });
 
 // Khi chạy hết bài thì quay lại từ đầu
 // ended
-
 audio.addEventListener("ended", function () {
   audio.currentTime = 0; // Đặt thời gian lại về 0
   playBtn.innerHTML = playIcon; // Gán lại bằng icon play
 });
+
+lyric = JSON.parse(lyric).data.sentences;
+console.log(lyric);

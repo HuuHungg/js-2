@@ -52,3 +52,72 @@
     gap: 20px;
   }
   
+.karaoke .play {
+  display: block;
+  margin: 10px auto;
+  border: none;
+  background: blueviolet;
+  color: #fff;
+  padding: 5px 15px;
+  cursor: pointer;
+}
+
+.karaoke .karaoke-inner {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  top: 100%;
+  background: blueviolet;
+  color: #fff;
+  transition: top 0.4s ease;
+  padding: 15px;
+}
+
+.karaoke .karaoke-inner.show {
+  top: 0;
+}
+
+.karaoke .karaoke-container {
+  max-width: 90%;
+  margin: 0 auto;
+}
+
+.karaoke .karaoke-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.karaoke .karaoke-heading .close {
+  cursor: pointer;
+}
+
+.karaoke .karaoke-content {
+  font-size: 4vw;
+  font-weight: bold;
+  text-align: center;
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.karaoke .karaoke-content p {
+  margin: 15px 0;
+}
+
+.karaoke .karaoke-content .word {
+  position: relative;
+}
+
+.karaoke .karaoke-content .word span {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  overflow: hidden;
+  display: inline-block;
+  color: yellow;
+}
