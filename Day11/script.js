@@ -121,5 +121,120 @@ audio.addEventListener("ended", function () {
   playBtn.innerHTML = playIcon; // Gán lại bằng icon play
 });
 
-lyric = JSON.parse(lyric).data.sentences;
-console.log(lyric);
+var karaoke = document.querySelector(".karaoke");
+var karaokeInner = karaoke.querySelector(".karaoke-inner");
+var karaokePlayBtn = karaoke.querySelector(".play");
+var karaokeCloseBtn = karaoke.querySelector(".close");
+var player = document.querySelector(".player");
+var karaokeContent = karaoke.querySelector(".karaoke-content");
+
+karaokePlayBtn.addEventListener("click", function () {
+  karaokeInner.classList.add("show");
+  player.classList.add("bottom");
+});
+
+karaokeCloseBtn.addEventListener("click", function () {
+  karaokeInner.classList.remove("show");
+  player.classList.remove("bottom");
+});
+
+var karaokeInterval;
+// Lắng nghe sự kiện play
+audio.addEventListener("play", function () {
+  console.log("play");
+  karaokeInterval = setInterval(handleKaraoke, 100);
+});
+
+// Lắng nghe sự kiên pause
+audio.addEventListener("pause", function () {
+  console.log("pause");
+  clearInterval(karaokeInterval);
+});
+
+var handleKaraoke = function () {
+  var currentTime = audio.currentTime * 1000;
+  var index = lyric.findIndex(function (lyricItem) {
+    return (
+      currentTime >= lyricItem.words[0].startTime &&
+      currentTime <= lyricItem.words[lyricItem.words.length - 1].endTime
+    );
+  });
+  if (index !== -1) {
+    if (index === 0) {
+      var outputHtml = `
+      <p data-index = "${index}">${getSentence(0)}</p> 
+      <p data-index = "${index + 1}">${getSentence(1)}</p>
+    `;
+      karaokeContent.innerHTML = outputHtml;
+    } else {
+      // Số lẻ -> Ẩn dòng đầu và hiển thị câu tiếp theo
+      // Số chẵn -> Ẩn dòng thứ hai và hiển thị câu tiếp theo
+      if (index % 2 !== 0) {
+        changeSentence(
+          karaokeContent.children[0],
+          getSentence(index + 1),
+          index + 1
+        );
+      } else {
+        changeSentence(
+          karaokeContent.children[1],
+          getSentence(index + 1),
+          index + 1
+        );
+      }
+    }
+    // Xử lý tô màu
+    var currentLienEl = karaokeContent.querySelector(`[data-index="${index}"]`);
+    if (currentLienEl) {
+      var wordIndex = getWorkIndex(index, currentTime);
+      // Array.form ép về kiểu mảng;
+      Array.from(currentLienEl.children).forEach(function (wordEl, i) {
+        if (wordIndex === i) {
+          var word = lyric[index].words[wordIndex];
+          var rate =
+            ((currentTime - word.startTime) * 100) /
+            (word.endTime - word.startTime);
+          wordEl.children[0].style.width = `${rate}%`;
+          if (i > 0) {
+            Array.from(currentLienEl.children)[
+              i - 1
+            ].children[0].style.width = `100%`;
+          }
+        }
+      });
+    }
+  }
+};
+
+var getSentence = function (index) {
+  return lyric[index].words
+    .map(function (word) {
+      return `
+      <span class="word">
+        ${word.data} 
+        <span>${word.data}</span>
+      </span>`;
+    })
+    .join(" ");
+};
+
+var changeSentence = function (element, sentence, index) {
+  element.style.transition = "all 0.4s ease";
+  element.style.opacity = 0;
+  setTimeout(function () {
+    element.innerHTML = sentence;
+    element.style.opacity = 1;
+    element.dataset.index = index;
+  }, 300);
+};
+
+var getWorkIndex = function (index, currentTime) {
+  return lyric[index].words.findIndex(function (item) {
+    return currentTime >= item.startTime && currentTime < item.endTime;
+  });
+};
+
+// index = 1 => Ẩn element 0 -> Hiển thị index = 2;
+// index = 2 => Ẩn element 1 -> Hiển thị index = 3;
+// index = 3 => Ẩn element 0 -> Hiển thị index = 4;
+// index = 4 => Ẩn element 1 -> Hiển thị index = 5;

@@ -58,7 +58,7 @@
   border: none;
   background: blueviolet;
   color: #fff;
-  padding: 5px 15px;
+  padding: 5px 10px;
   cursor: pointer;
 }
 
@@ -93,7 +93,7 @@
 }
 
 .karaoke .karaoke-content {
-  font-size: 4vw;
+  font-size: 1.5rem;
   font-weight: bold;
   text-align: center;
   height: 80vh;
@@ -107,17 +107,31 @@
   margin: 15px 0;
 }
 
-.karaoke .karaoke-content .word {
+.karaoke .karaoke-content p span.word {
   position: relative;
 }
 
-.karaoke .karaoke-content .word span {
+.karaoke .karaoke-content p span.word span {
   position: absolute;
   top: 0;
   left: 0;
   bottom: 0;
   width: 0;
   overflow: hidden;
-  display: inline-block;
-  color: red;
+  color: yellow;
+}
+
+.player.bottom {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 10px;
+  z-index: 999;
+  max-width: 100%;
+  justify-content: center;
+  margin: 0 20px;
+}
+
+.player.bottom .progress span {
+  background: #fff;
 }

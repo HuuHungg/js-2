@@ -1,0 +1,33 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+}
+
+.container {
+    background: #4286f4;
+    padding: 1rem;
+    margin-top: 1rem;
+    width: 500px;
+    margin: 0 auto;
+}
+
+p.draggable.active {
+    background: #ff6f00;
+}
+
+.draggable {
+    padding: 1rem;
+    background: #8bb3f4;
+    border: 1px solid #ffff;
+    cursor: move;
+    color:black
+}
+
+.draggable.dragging {
+    opacity: 0.5;
+}

@@ -2441,3 +2441,6 @@ var lyric = ` {
     },
     "timestamp": 1694850498099
   }`;
+
+lyric = JSON.parse(lyric).data.sentences;
+console.log(lyric);
