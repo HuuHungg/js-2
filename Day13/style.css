@@ -21,7 +21,7 @@ p.draggable.active {
 }
 
 .draggable {
-    padding: 1rem;
+    padding: 0.6rem;
     background: #8bb3f4;
     border: 1px solid #ffff;
     cursor: move;

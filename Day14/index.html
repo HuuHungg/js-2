@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <title>DocEditor</title>
+  </head>
+  <body>
+    <div class="container">
+      <h4 id="title">Doc Editor</h4>
+      <nav class="controls">
+        <div class="main-controls">
+          <div class="dropdown">
+            <button
+              class="btn btn-primary dropdown-toggle"
+              data-bs-toggle="dropdown"
+            >
+              File
+            </button>
+            <div class="dropdown-menu">
+              <button id="new-btn" class="dropdown-item">New</button>
+              <button id="text-btn" class="dropdown-item">Save as Txt</button>
+              <button id="pdf-btn" class="dropdown-item">Save as PDF</button>
+            </div>
+          </div>
+          <input id="filename-input" type="text" value="untitled" />
+        </div>
+
+        <div class="controls-btn-container">
+          <button id="bold-btn" class="btn btn-dark control-btn">b</button>
+          <button id="underline-btn" class="btn btn-dark control-btn">u</button>
+          <button id="italic-btn" class="btn btn-dark control-btn">i</button>
+          <button id="center-btn" class="btn btn-dark control-btn">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <input id="color-btn" type="color" class="control-btn" />
+        </div>
+      </nav>
+      <!-- Conteneditable : Người đùng có thể trình sửa  -->
+      <!-- Spellcheck kiểm tra chính tả  -->
+      <div id="content" contenteditable="true" spellcheck="false">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur minima
+        vero commodi molestiae. Dicta, asperiores laudantium minus soluta
+        laboriosam tenetur beatae quasi dolorem nobis, illum praesentium
+        adipisci eum, eius ipsum?
+      </div>
+      <div class="d-flex justify-content-end gap-3">
+        <span id="char-count">Số ký tự: 0</span>
+        <span id="word-count">Số từ: 0</span>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.0/html2pdf.bundle.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+    <script src="script.js"></script>
+  </body>
+</html>
