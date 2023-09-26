@@ -1,0 +1,40 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #01BDF0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+}
+
+h1 {
+    color: #fff;
+}
+
+#get-link-button {
+    padding: 10px 20px;
+    border-radius: 99px;
+    border: 1px solid #fff;
+    cursor: pointer;
+}
+
+#countdown-display {
+    display: flex;
+    background-color: #FF9002;
+    color: #ffff;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    font-size: 20px;
+    text-align: center;
+    justify-content: center;
+    margin: 10px auto;
+    padding: 19px;
+}
+
