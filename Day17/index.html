@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        text-align: center;
+      }
+      button {
+        background: red;
+        cursor: pointer;
+        padding: 10px;
+        border: none;
+        border-radius: 4px;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Bạn muốn làm gì? Hãy nói cho F8 biết</h1>
+    <button id="btnClick">Bấm vào đây để nói</button>
+    <p id="statusMessage" style="color: red; display: none"></p>
+    <div
+      class="action success"
+      style="display: none; color: green; margin-top: 15px"
+    >
+      Đã nói xong. Hy vọng kết quả như ý bạn
+    </div>
+    <div
+      class="result"
+      style="
+        border: 1px solid green;
+        padding: 10px 0;
+        margin-top: 40px;
+        display: none;
+      "
+    >
+      Thực hiện yêu cầu thành công
+    </div>
+    <script src="./app.js"></script>
+  </body>
+</html>
