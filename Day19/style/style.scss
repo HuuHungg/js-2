@@ -1,0 +1,176 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  text-align: center;
+  margin: 0 auto;
+}
+
+// SCSS TITLE
+.title {
+  margin: 30px;
+  color: transparent;
+  background: linear-gradient(to right, #03d190, #116ee0);
+  -webkit-background-clip: text; /* Cho trình duyệt Webkit (Chrome, Safari, ...) */
+  background-clip: text; /* Cho các trình duyệt khác */
+  &-color {
+    color: black;
+  }
+}
+
+// SCSS SEARCH
+.search {
+  display: flex;
+  justify-content: center;
+  .search-todos {
+    position: relative;
+    width: 35%;
+    input {
+      padding: 16px 15px;
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+    }
+    button {
+      position: absolute;
+      top: 6px;
+      right: 9px;
+      padding: 11px 18px;
+      border-radius: 5px;
+      border: none;
+      background-color: #1c4ed8;
+      cursor: pointer;
+      > i {
+        color: #fff;
+      }
+    }
+    button:hover {
+      background-color: #052d9b;
+    }
+  }
+  .search-btn {
+    margin-left: 10px;
+    padding: 4px 6px;
+    .search-btn__add {
+      padding: 13px 18px;
+      background: #047857;
+      color: #fff;
+      cursor: pointer;
+      border: none;
+      border-radius: 10px;
+      &:hover {
+        background-color: #024e39;
+      }
+    }
+  }
+}
+
+// SCSS LIST
+.list {
+  margin: 20px auto;
+  width: 42%;
+  background: #fff;
+  position: relative;
+  .add-list {
+    display: flex;
+    padding: 14px 12px;
+    box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 10px;
+    color: #6e6c6c;
+    margin: 20px 0;
+  }
+  .click-list {
+    button {
+      padding: 12px 14px;
+      margin: 0 6px;
+      cursor: pointer;
+      border: none;
+      border-radius: 10px;
+      color: #fff;
+    }
+    .delete {
+      background-color: red;
+    }
+    .note {
+      background-color: #1d4ed8;
+    }
+    .change {
+      background-color: #9ca3af;
+    }
+  }
+}
+
+//SCSS complateTodo
+.complateTodos {
+  position: absolute;
+  bottom: -60px;
+  > button {
+    cursor: pointer;
+    border: none;
+    padding: 14px 16px;
+    background-color: #9ca3af;
+    color: #ffff;
+    border-radius: 8px;
+  }
+}
+
+// SCSS ModelBox
+.model-box {
+  display: none;
+  background: #0000009c;
+  position: fixed;
+  inset: 0;
+  &.show {
+    display: block;
+  }
+  .modal {
+    max-width: 400px;
+    margin: 100px auto;
+    background: #fff;
+    padding: 15px 15px;
+    border-radius: 10px;
+    position: relative;
+    z-index: 1;
+    .modal-header {
+      > input {
+        width: 100%;
+        padding: 12px 12px;
+        margin: 10px 0;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background: #f9fafb;
+      }
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: 61px;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background-color: #ccc;
+      }
+    }
+    .modal-btn {
+      margin-top: 26px;
+      button {
+        padding: 10px 14px;
+        margin: 0 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        border: none;
+        cursor: pointer;
+      }
+      .save-btn {
+        background: #047857;
+        color: #fff;
+      }
+    }
+  }
+}

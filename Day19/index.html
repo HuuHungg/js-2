@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smatyx Todos App</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="./style/style.css" />
+  </head>
+  <body>
+    <main id="root">
+      <div class="title">
+        <h1>Smatyx <span class="title-color">Todos App</span></h1>
+      </div>
+      <div class="search">
+        <div class="search-todos">
+          <input type="text" placeholder="Search Todos" />
+          <button>
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+        </div>
+        <div class="search-btn">
+          <button class="search-btn__add">Add Todos</button>
+        </div>
+      </div>
+      <div class="list">
+        <!-- <div class="add-list">
+          <div class="content-list"><span>Minh's next task</span></div>
+          <div class="click-list">
+            <button class="delete">
+              <i class="fa-solid fa-trash-can"></i>
+            </button>
+            <button class="note">
+              <i class="fa-solid fa-pen-to-square"></i>
+            </button>
+            <button class="change">
+              <i class="fa-solid fa-check-to-slot"></i>
+            </button>
+          </div>
+        </div> -->
+        <div class="complateTodos">
+          <button>
+            Completed Todos 1 <i class="fa-solid fa-circle-right"></i>
+          </button>
+        </div>
+      </div>
+      <div class="model-box">
+        <div class="modal">
+          <div class="modal-header">
+            <input type="text" placeholder="Add Todos" />
+            <div class="modal-btn">
+              <button class="save-btn">Save</button>
+              <button class="close">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script type="module" src="./js/app.js"></script>
+  </body>
+</html>

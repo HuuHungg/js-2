@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="./app.js"></script>
+  </head>
+  <body>
+    <div class="img-wrapper">
+      <img
+        src="https://plus.unsplash.com/premium_photo-1661962911608-ea55ac7785da?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8c3Vuc2V0JTIwaW4lMjBjaXR5fGVufDB8fDB8fHww&auto=format&fit=crop&w=900&q=60"
+        alt=""
+        width="500px"
+        height="300px"
+        id="img-original"
+      />
+      <div id="img-zoom" class="img-zoom-result"></div>
+      <script>
+        imageZoom("img-original", "img-zoom");
+      </script>
+    </div>
+  </body>
+</html>
