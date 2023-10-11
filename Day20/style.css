@@ -1,0 +1,15 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: black;
+}
+
+#loading-message {
+  display: none;
+  /* Các thuộc tính CSS khác (vị trí, màu sắc, font chữ, v.v.) */
+}
+
