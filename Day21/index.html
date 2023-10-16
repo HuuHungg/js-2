@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz App</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;," />
+  </head>
+
+  <body>
+    <div id="score-container" class="hide">
+      <p>Correct Answers: <span id="correct-answers"></span></p>
+      <p>Wrong Answers: <span id="wrong-answers"></span></p>
+      <button id="play-again-btn" class="btn">Play Again</button>
+    </div>
+    <div class="container">
+      <div class="posts">
+        <div id="question-container" class="hide">
+          <div id="countdown-timer">10 seconds</div>
+          <div id="question">Question</div>
+          <div id="answer-button" class="btn-grid">
+            <button class="btn">Answer 1</button>
+            <button class="btn">Answer 2</button>
+            <button class="btn">Answer 3</button>
+            <button class="btn">Answer 4</button>
+          </div>
+        </div>
+      </div>
+      <div class="controls">
+        <button id="start-btn" class="start-btn btn">Start</button>
+        <button id="next-btn" class="next-btn btn hide">Next</button>
+      </div>
+    </div>
+    <audio id="correct-audio" preload="auto">
+      <source
+        src="./Audio/am-thanh-cau-tra-loi-dung-right-answer-capcut-www_tiengdong_com.mp3"
+        type="audio/mpeg"
+      />
+      <source
+        src="./Audio/am-thanh-cau-tra-loi-dung-right-answer-capcut-www_tiengdong_com.ogg"
+        type="audio/ogg"
+      />
+    </audio>
+
+    <audio id="error-audio" preload="auto">
+      <source
+        src="./Audio/Am-thanh-tra-loi-sai-www_tiengdong_com.mp3"
+        type="audio/mpeg"
+      />
+      <source
+        src="./Audio/Am-thanh-tra-loi-sai-www_tiengdong_com.ogg"
+        type="audio/ogg"
+      />
+    </audio>
+    <script type="module" src="./js/app.js"></script>
+  </body>
+</html>
