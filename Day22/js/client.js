@@ -12,7 +12,7 @@ export const client = {
   send: async function (url, method = "GET", body = null) {
     url = `${this.serverApi}${url}`;
     const headers = {
-      "Content-Type": "application/json ",
+      "Content-Type": "application/json",
     };
     if (this.token) {
       headers["Authorization"] = `Bearer ${this.token}`;
