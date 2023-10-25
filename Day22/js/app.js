@@ -1,334 +1,232 @@
 import { client } from "./client.js";
+import { loginForm, homeContent } from "./htmlfile.js";
 import { requestRefresh } from "./token.js";
 
 client.setUrl("https://api-auth-two.vercel.app");
 
-const app = {
-  currentForm: "signInForm",
-  render: function () {
-    const root = document.querySelector("#root");
-    if (this.isLogin()) {
-      root.innerHTML = `
-        <div class="loginContainer">
-          <h5 class="title-login">Chào mừng bạn đã quay trở lại</h5>
+const root = document.querySelector("#root");
+const blockList = document.querySelector(".block-list");
+const loginButton = document.querySelector("#loginButton");
+let page = 1;
+let loading = false;
+let hasMore = true;
+
+// Hàm để gọi API và hiển thị danh sách bài viết
+async function fetchAndDisplayPosts() {
+  try {
+    const response = await fetch(`https://api-auth-two.vercel.app/blogs`);
+    if (!response.ok) {
+      throw new Error("Failed to fetch data");
+    }
+    const result = await response.json();
+    const data = result.data;
+
+    if (Array.isArray(data)) {
+      data.forEach((post) => {
+        const postElement = document.createElement("div");
+        postElement.innerHTML = `
+          <h2 class="nameBlog">Người viết: ${post.userId.name}</h2>
+          <p>${post.title}</p>
+          <p>${post.content}</p>
           <hr/>
-          <ul class="content-login">
-            <li>Chào bạn: <b>Yushing Dev</b></li>
-            <li><a href="#" id="logoutBtn" class="btn btn-danger text-white">Logout</a></li>
-            <li><a href="#" id="btnWritePost" class="btn btn-primary">Viết bài</a></li>
-          </ul>
-          <form id="writePostForm" style="display: none;">
-            <div class="content-text">
-              <label for="postTitle">Nhập tiêu đề</label>
-              <input type="text" placeholder="Nhập tiêu đề" id="postTitle" name="postTitle" />
-            </div>
-            <div class="form_area">
-              <label for="postContent">Nhập nội dung</label>
-              <textarea rows="5" cols="33" name="postContent" placeholder="Nội dung bài viết..." class="area" id="postContent"></textarea>
-            </div>
-            <button class="content-write">Đăng bài</button>
-          </form>
-          <div class="post-preview">
-            <h2 id="postTitlePreview"></h2>
-            <p id="postContentPreview"></p>
-          </div>
-          <div id="blog-posts"></div>
-        </div>
-      `;
-      document.getElementById("logoutBtn").addEventListener("click", () => {
-        this.handleLogout();
-      });
-      document.getElementById("postTitlePreview").style.display = "none";
-      document.getElementById("postContentPreview").style.display = "none";
-      this.getPosts();
-      this.addPostFormListeners();
-      this.initLoggedInUI();
-    } else {
-      root.innerHTML = `
-        <main class="container">
-          <section class="section">
-            <div class="info-group column">
-              <h1>${
-                this.currentForm === "signInForm" ? "Sign In" : "Sign Up"
-              }</h1>
-              <span>Please enter your email and password.</span>
-              <span class="link"><a href="/">Go to Home</a></span>
-            </div>
-            <form id="signInForm" class="login" style="display: ${
-              this.currentForm === "signInForm" ? "block" : "none"
-            }">
-              <!-- Sign In Form -->
-              <div class="form-controls">
-                <label for="signInEmail" class="form_title">Enter Your email</label>
-                <input
-                  type="email"
-                  id="signInEmail"
-                  name="email"
-                  class="input-form"
-                  placeholder="Please enter the email"
-                />
-              </div>
-              <div class="form-controls">
-                <label for "signInPassword" class="form_title">Enter Your password</label>
-                <input
-                  type="password"
-                  id="signInPassword"
-                  name="password"
-                  class="input-form"
-                  placeholder="Please enter the password"
-                />
-              </div>
-              <div class="button-group">
-                <button id="btnSignIn" class="btn btn_submit">Sign In</button>
-                <button id="btnToggleSignIn" class="btn btn_submit">Switch to Sign Up</button>
-              </div>
-              <div class="msg text-danger"></div>
-            </form>
-            <form id="signUpForm" class="login" style="display: ${
-              this.currentForm === "signUpForm" ? "block" : "none"
-            }">
-              <!-- Sign Up Form -->
-              <div class="form-controls">
-                <label for="signUpName" class="form_title">Enter Your name</label>
-                <input
-                  type="text"
-                  id="signUpName"
-                  name="name"
-                  class="input-form"
-                  placeholder="Please enter the name"
-                />
-              </div>
-              <div class="form-controls">
-                <label for="signUpEmail" class="form_title">Enter Your email</label>
-                <input
-                  type="email"
-                  id="signUpEmail"
-                  name="email"
-                  class="input-form"
-                  placeholder="Please enter the email"
-                />
-              </div>
-              <div class="form-controls">
-                <label for="signUpPassword" class="form_title">Enter Your password</label>
-                <input
-                  type="password"
-                  id="signUpPassword"
-                  name="password"
-                  class="input-form"
-                  placeholder="Please enter the password"
-                />
-              </div>
-              <div class="button-group">
-                <button id="btnSignUp" class="btn btn_submit">Sign Up</button>
-                <button id="btnToggleSignUp" class="btn btn_submit">Switch to Sign In</button>
-              </div>
-            </form>
-          </section>
-        </main>`;
-      this.addEventListeners();
-    }
-  },
-
-  isLogin: function () {
-    if (localStorage.getItem("login_tokens")) {
-      return true;
-    }
-    return false;
-  },
-
-  handleLogin: async function (data) {
-    const msg = document.querySelector(".msg");
-    msg.innerText = "";
-    this.addLoading();
-    try {
-      const { data: tokens, response } = await client.post("/auth/login", data);
-      this.removeLoading();
-      if (response.ok) {
-        localStorage.setItem("login_tokens", JSON.stringify(tokens));
-        this.render();
-      } else {
-        msg.innerText = `${tokens.message}`;
-      }
-    } catch (error) {
-      msg.innerText = "Có lỗi xảy ra khi đăng nhập";
-    }
-  },
-
-  handleSignUp: async function (data) {
-    const msg = document.querySelector(".msg");
-    msg.innerText = "";
-    this.addLoading();
-    try {
-      const { data: response, status } = await client.post(
-        "/auth/register",
-        data
-      );
-      this.removeLoading();
-      if (status === 201) {
-        this.currentForm = "signInForm";
-        this.render();
-      } else {
-        msg.innerText = "Đăng ký không thành công, Vui lòng thử lại";
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  },
-
-  addSignUpFormListeners: function () {
-    const form = document.getElementById("signUpForm");
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const name = document.getElementById("signUpName").value;
-      const email = document.getElementById("signUpEmail").value;
-      const password = document.getElementById("signUpPassword").value;
-      this.handleSignUp({ name, email, password });
-    });
-  },
-
-  addLoading: function () {
-    const btn = document.querySelector(".btn_submit");
-    btn.innerHTML = `<span class="spinner-border spinner-border-sm"></span> Loading...`;
-    btn.disabled = true;
-  },
-
-  removeLoading: function () {
-    const btn = document.querySelector(".btn_submit");
-    btn.innerHTML = "Sign In";
-    btn.disabled = false;
-  },
-
-  addEventListeners: function () {
-    document.getElementById("btnToggleSignIn").addEventListener("click", () => {
-      this.toggleForm();
-    });
-    document.getElementById("btnToggleSignUp").addEventListener("click", () => {
-      this.toggleForm();
-    });
-    if (this.currentForm === "signInForm") {
-      this.addSignInFormListeners();
-    } else {
-      this.addSignUpFormListeners();
-    }
-  },
-
-  toggleForm: function () {
-    this.currentForm =
-      this.currentForm === "signInForm" ? "signUpForm" : "signInForm";
-    this.render();
-  },
-
-  addSignInFormListeners: function () {
-    const form = document.getElementById("signInForm");
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const email = document.getElementById("signInEmail").value;
-      const password = document.getElementById("signInPassword").value;
-      this.handleLogin({ email, password });
-    });
-  },
-
-  handleLogout: function () {
-    localStorage.removeItem("login_tokens");
-    this.render();
-  },
-
-  getPosts: async function () {
-    const { data: posts, response } = await client.get("/blogs");
-    if (response.ok) {
-      this.showPosts(posts);
-    } else {
-      console.error("Failed to fetch blog posts");
-    }
-  },
-
-  showPosts: function (posts) {
-    const blogPosts = document.getElementById("blog-posts");
-    blogPosts.innerHTML = "";
-    if (posts.length > 0) {
-      posts.forEach((post, index) => {
-        const postHtml = `
-          <div class="post-item">
-            <h3>${post.title}</h3>
-            <p>${post.content}</p>
-          </div>
         `;
-        blogPosts.innerHTML += postHtml;
-        if (index === 0) {
-          document.getElementById("postTitlePreview").innerText = post.title;
-          document.getElementById("postContentPreview").innerText =
-            post.content;
-          document.getElementById("postTitlePreview").style.display = "block";
-          document.getElementById("postContentPreview").style.display = "block";
-        }
+        blockList.appendChild(postElement);
       });
     } else {
-      document.getElementById("postTitlePreview").innerText =
-        "Không có bài viết";
-      document.getElementById("postContentPreview").innerText = "";
-      document.getElementById("postTitlePreview").style.display = "block";
-      document.getElementById("postContentPreview").style.display = "none";
+      console.error("Data is not an array:", data);
     }
-  },
+  } catch (error) {
+    console.error("An error occurred while fetching data:", error);
+  }
+}
 
-  postBlog: async function (title, content) {
-    const tokens = localStorage.getItem("login_tokens");
-    if (!tokens) {
-      console.error("Vui lòng đăng nhập trước khi đăng bài viết.");
-      return;
-    }
+fetchAndDisplayPosts();
 
-    const accessToken = JSON.parse(tokens).accessToken;
+// Bắt sự kiện cuộn trang
+window.addEventListener("scroll", () => {
+  if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
+    fetchAndDisplayPosts();
+  }
+});
 
-    const data = {
+// Code Tính năng đăng nhập và đăng ký
+const contentContainer = document.getElementById("contentContainer");
+const loginBtn = document.getElementById("loginButton");
+let loginFormVisible = false;
+let errorVisible = false;
+
+loginBtn.addEventListener("click", () => {
+  if (loginFormVisible) {
+    contentContainer.innerHTML = "";
+    loginFormVisible = false;
+    hideError();
+  } else {
+    contentContainer.innerHTML = loginForm;
+    loginFormVisible = true;
+
+    const wrapper = document.querySelector(".wrapper");
+    const registerLink = document.querySelector(".register-link");
+    const loginLink = document.querySelector(".login-link");
+
+    registerLink.onclick = () => {
+      wrapper.classList.add("active");
+    };
+
+    loginLink.onclick = () => {
+      wrapper.classList.remove("active");
+    };
+
+    const loginSubmitBtn = document.querySelector(".loginSubmit");
+    const registerSubmitBtn = document.querySelector(".registerSubmit");
+
+    loginSubmitBtn.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const msg = document.querySelector(".msg");
+      const email = e.target.querySelector(".email").value;
+      const password = e.target.querySelector(".password").value;
+      await handleLogin({ email, password }, msg);
+    });
+  }
+});
+
+const handleLogin = async function (data, msg) {
+  msg.innerText = "";
+  const { data: tokens, response } = await client.post("/auth/login", data);
+  if (!response.ok) {
+    msg.innerText = tokens.message;
+    showError();
+    hideErrorAfterDelay();
+  } else {
+    localStorage.setItem("login_tokens", JSON.stringify(tokens));
+    showLoggedInContent();
+  }
+};
+
+function showError() {
+  const errorBox = document.querySelector(".error-box");
+  errorBox.style.display = "block";
+  errorVisible = true;
+}
+
+function hideErrorAfterDelay() {
+  setTimeout(() => {
+    hideError();
+  }, 2000);
+}
+
+function hideError() {
+  const errorBox = document.querySelector(".error-box");
+  errorBox.style.display = "none";
+  errorVisible = false;
+}
+
+// Code tính năng đăng bài viết
+// Khai báo biến showAllPosts ở phạm vi toàn cục
+let showAllPosts = true;
+
+function showLoggedInContent() {
+  contentContainer.innerHTML = homeContent;
+  // Hiển thị nút đăng bài viết và danh sách bài viết của mọi người
+  fetchAndDisplayPosts();
+  // Đảm bảo biến accessToken có sẵn
+  const accessToken = localStorage.getItem("login_tokens")
+    ? JSON.parse(localStorage.getItem("login_tokens")).data.accessToken
+    : null;
+
+  // Sử lý logic đăng bài viết
+  const submitBtn = document.querySelector("#submitArticle");
+  const titleInput = document.querySelector("#titleInput");
+  const contentInput = document.querySelector("#contentInput");
+  const articleContainer = document.querySelector(".article-container");
+
+  submitBtn.addEventListener("click", async (e) => {
+    e.preventDefault(); // Ngăn chặn sự kiện mặc định của nút "submit"
+    const title = titleInput.value;
+    const content = contentInput.value;
+
+    // Gọi API để đăng bài viết
+    const postData = {
       title: title,
       content: content,
     };
 
-    const headers = {
-      Authorization: `Bearer ${accessToken}`,
-      "Content-Type": "application/json",
-    };
+    const response = await fetch("https://api-auth-two.vercel.app/blogs", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(postData),
+    });
 
-    const msg = document.querySelector(".msg");
-    msg.innerText = "";
+    if (response.ok) {
+      alert("Đăng bài viết thành công!");
 
-    try {
-      const response = await client.post("/blogs", data, { headers });
-      if (response.response.ok) {
-        this.getPosts();
-        document.getElementById("postTitle").value = "";
-        document.getElementById("postContent").value = "";
-      } else {
-        msg.innerText = "Lỗi khi đăng bài viết. Vui lòng thử lại.";
+      if (showAllPosts) {
+        const name = "Your Name";
+        addPostToDOM(name, title, content, articleContainer);
       }
-    } catch (error) {
-      console.error("Lỗi khi đăng bài viết:", error);
-      msg.innerText = "Lỗi khi đăng bài viết. Vui lòng thử lại.";
+
+      titleInput.value = "";
+      contentInput.value = "";
+
+      // Sau khi đăng bài thành công, cập nhật lại danh sách bài viết của mọi người
+      fetchAndDisplayPosts();
+    } else {
+      alert("Lỗi khi đăng bài viết.");
     }
-  },
-  showWritePostForm: function () {
-    const writePostForm = document.getElementById("writePostForm");
-    writePostForm.style.display = "block";
-    document.getElementById("postTitlePreview").style.display = "none";
-    document.getElementById("postContentPreview").style.display = "none";
-  },
+  });
 
-  addPostFormListeners: function () {
-    const postButton = document.querySelector(".content-write");
-    postButton.addEventListener("click", () => {
-      const title = document.getElementById("postTitle").value;
-      const content = document.getElementById("postContent").value;
-      this.postBlog(title, content);
-    });
-  },
+  // Hàm để gọi API và hiển thị danh sách bài viết của mọi người
+  async function fetchAndDisplayPosts() {
+    // Lấy danh sách bài viết từ API
+    const response = await fetch("https://api-auth-two.vercel.app/blogs");
+    if (!response.ok) {
+      throw new Error("Failed to fetch data");
+    }
+    const result = await response.json();
+    const data = result.data;
 
-  initLoggedInUI: function () {
-    const writePostButton = document.getElementById("btnWritePost");
-    writePostButton.addEventListener("click", () => {
-      this.showWritePostForm();
-    });
-  },
-};
+    // Xóa toàn bộ bài viết trên giao diện trước khi hiển thị lại
+    articleContainer.innerHTML = "";
 
-app.render();
+    if (Array.isArray(data)) {
+      data.forEach((post) => {
+        const postElement = document.createElement("div");
+        postElement.innerHTML = `
+          <h2 class="nameBlog">Người viết: ${post.userId.name}</h2>
+          <p>${post.title}</p>
+          <p>${post.content}</p>
+          <hr/>
+        `;
+        articleContainer.appendChild(postElement);
+      });
+    } else {
+      console.error("Data is not an array:", data);
+    }
+  }
+
+  const logoutLink = document.querySelector(".logout");
+  logoutLink.addEventListener("click", (event) => {
+    event.preventDefault();
+
+    // Loại bỏ lớp "hidden-content" từ phần nội dung ban đầu
+    const blogContent = document.querySelector("#blogContent");
+    blogContent.classList.remove("hidden-content");
+
+    // Ẩn nội dung hiện tại
+    contentContainer.innerHTML = "";
+    contentContainer.classList.add("hidden-content");
+  });
+  // End tính năng đăng bài viết
+}
+
+function addPostToDOM(name, title, content, container) {
+  const postElement = document.createElement("div");
+  postElement.innerHTML = `
+    <h2 class="nameBlog">Người viết: ${name}</h2>
+    <p>${title}</p>
+    <p>${content}</p>
+  `;
+  container.prepend(postElement);
+}
