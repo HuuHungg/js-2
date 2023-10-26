@@ -91,6 +91,10 @@ export const homeContent = `
                     <label for="contentInput" class="label-form">Nhập nội dung bài viết</label>
                     <textarea placeholder="Nhập nội dung bài viết" id="contentInput" cols="30" rows="10"></textarea>
                 </div>
+                <div class="form-group">
+                    <label for="content" class="label-form">Chọn thời gian đăng bài (Nếu có)</label>
+                    <input type="date" id="datetime-picker">
+                </div>
                 <button id="submitArticle" class="submit-article">Đăng bài viết</button>
                 <span class="time-remain"></span>
               </form>
