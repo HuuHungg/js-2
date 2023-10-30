@@ -212,6 +212,7 @@ function showLoggedInContent() {
 
     // Loại bỏ lớp "hidden-content" từ phần nội dung ban đầu
     const blogContent = document.querySelector("#blogContent");
+    console.log(blogContent);
     blogContent.classList.remove("hidden-content");
 
     // Ẩn nội dung hiện tại
