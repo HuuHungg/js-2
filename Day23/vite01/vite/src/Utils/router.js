@@ -1,9 +1,9 @@
 import Navigo from "navigo";
 import { Error } from "../Error";
-const app = document.getElementById("app");
 
 export const router = (routes, Layout) => {
   const router = new Navigo("/", { linksSelector: "a" });
+  const app = document.getElementById("app");
 
   const render = (component, title) => {
     if (app) {
@@ -30,14 +30,11 @@ export const router = (routes, Layout) => {
     const app = document.getElementById("app");
     app.innerHTML = Error();
   });
-
   router.on(routesConfig).resolve();
 
   const appRouter = {
     navigate: (path) => router.navigate(path),
   };
-
   window.navigate = appRouter.navigate;
-
   return appRouter;
 };

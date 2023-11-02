@@ -1,0 +1,190 @@
+.container {
+  display: grid;
+  place-items: center;
+  margin-top: 2rem;
+  width: 100%;
+  background-image: linear-gradient(90deg, #45b39d, #16a085);
+  border-radius: 3%;
+  padding: 1.5rem 6rem;
+  filter: drop-shadow(1px 1px 5px #0e6655);
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    filter: drop-shadow(1px 1px 8px #0e6655);
+  }
+  > h1 {
+    margin: 1rem 0;
+    font-size: 2.8rem;
+  }
+  > form {
+    display: flex;
+    place-items: center;
+    width: 100%;
+    padding: 1rem 0;
+    > .input {
+      width: 100%;
+      padding: 0.5rem 1rem;
+      border: none;
+      font-size: 1.2rem;
+      transition: all 0.3s ease-in-out;
+      background: transparent;
+      border-bottom: 2px solid #03453e;
+      &:focus {
+        outline: none;
+      }
+    }
+    > button {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 50px;
+      background-color: #0e6655;
+      color: #fff;
+      font-size: 1.2rem;
+      transition: all 0.3s ease-in-out;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #0e6655;
+        box-shadow: 0px 0px 3px 1px #0e6655;
+      }
+    }
+  }
+  > .todo-list {
+    margin-top: 1rem;
+    width: 100%;
+    overflow: auto;
+    max-height: 15rem;
+    padding: 0.5rem;
+    > .todo-item {
+      margin: 1rem 0;
+      display: flex;
+      justify-content: space-between;
+      > * {
+        margin: 0.5rem;
+      }
+
+      > .checkbox {
+        display: inline-block;
+        width: 25%;
+        padding: 0.3rem 1rem;
+        border-radius: 50px;
+        background-color: #fff;
+        color: #000;
+        font-size: 1.1rem;
+        transition: all 0.3s ease-in-out;
+        border: none;
+        cursor: pointer;
+        filter: drop-shadow(1px 1px 5px #0e6655);
+        &:hover {
+          filter: drop-shadow(1px 1px 8px #0e6655);
+        }
+      }
+      > .todo-text {
+        display: inline-block;
+        width: 100%;
+        padding: 0.3rem 1rem;
+        border-radius: 50px;
+        background-color: #fff;
+        border: none;
+        color: #000;
+        margin-right: 0.5rem;
+        font-size: 1.1rem;
+        transition: all 0.3s ease-in-out;
+        filter: drop-shadow(1px 1px 5px #0e6655);
+
+        &:hover {
+          filter: drop-shadow(1px 1px 8px #0e6655);
+        }
+        &:focus {
+          outline: none;
+        }
+      }
+      > .edit-item,
+      .delete-button {
+        display: inline-block;
+        width: 25%;
+        padding: 0.3rem 1rem;
+        border-radius: 5px;
+        background-color: #f1c40f;
+        color: #000;
+        font-size: 0.8rem;
+        transition: all 0.3s ease-in-out;
+        border: none;
+        cursor: pointer;
+        filter: drop-shadow(1px 1px 5px #0e6655);
+
+        &:hover {
+          filter: drop-shadow(1px 1px 8px #0e6655);
+        }
+      }
+      > .delete-button {
+        background-color: #e74c3c;
+      }
+    }
+  }
+  > .search {
+    width: 100%;
+    padding: 0.6rem 1rem;
+    border-radius: 50px;
+    border: none;
+    margin-bottom: 0.9rem;
+    transition: all 0.3s ease-in-out;
+
+    &:focus {
+      outline: none;
+      filter: drop-shadow(0px 0px 2px #0e6655);
+    }
+  }
+}
+
+.hide {
+  display: none !important;
+}
+.show {
+  display: flex !important;
+}
+
+.completed {
+  text-decoration: line-through;
+  color: #ec743c;
+}
+
+@media screen and (max-width: 720px) {
+  .container {
+    padding: 1.5rem 1rem;
+    width: 85%;
+    margin: 3rem auto;
+
+    > h1 {
+      font-size: 2.2rem;
+    }
+
+    > form .input {
+      font-size: 1rem;
+    }
+
+    > form button {
+      font-size: 1rem;
+    }
+    > .todo-list {
+      max-height: 10rem;
+      min-height: 100%;
+      > .todo-item {
+        > .checkbox,
+        .todo-text {
+          font-size: 0.9rem;
+        }
+        > .edit-item,
+        .delete-button {
+          font-size: 0.7rem;
+          padding: 0.3rem 0.8rem;
+          margin-right: 0;
+        }
+      }
+    }
+    > .search {
+      width: 100%;
+      font-size: 1rem;
+    }
+  }
+}
