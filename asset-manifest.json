@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/js-2/Day24/todo-app/static/css/main.67bb6e6c.css",
+    "main.js": "/js-2/Day24/todo-app/static/js/main.a7989d0b.js",
+    "index.html": "/js-2/Day24/todo-app/index.html",
+    "main.67bb6e6c.css.map": "/js-2/Day24/todo-app/static/css/main.67bb6e6c.css.map",
+    "main.a7989d0b.js.map": "/js-2/Day24/todo-app/static/js/main.a7989d0b.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.67bb6e6c.css",
+    "static/js/main.a7989d0b.js"
+  ]
+}
