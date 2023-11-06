@@ -3,7 +3,14 @@ import { TodoContext } from "../context/context";
 
 const Search = () => {
   const { currentTodo, setCurrentTodo } = useContext(TodoContext);
+  const [isSearchVisible, setIsSearchVisible] = useState(false);
   const [searchInput, setSearchInput] = useState("");
+
+  const toggleSearch = () => {
+    setIsSearchVisible(!isSearchVisible);
+    // Clear the search input when toggling visibility
+    setSearchInput("");
+  };
 
   const searchHandler = (e) => {
     let term = e.target.value;
@@ -11,24 +18,28 @@ const Search = () => {
     term = term.toLowerCase();
     setCurrentTodo(
       currentTodo.map((todo) => {
-        if (todo.text.search(term) < 0) {
-          todo.search = true;
-        } else {
+        if (todo.text.toLowerCase().includes(term)) {
           todo.search = false;
+        } else {
+          todo.search = true;
         }
         return todo;
       })
     );
   };
+
   return (
     <>
-      {currentTodo && currentTodo.length > 0 && (
+      <button onClick={toggleSearch} className="searchBtn">
+        Search
+      </button>
+      {isSearchVisible && currentTodo && currentTodo.length > 0 && (
         <input
           type="search"
           className="search"
           value={searchInput}
           onChange={searchHandler}
-          placeholder="Search"
+          placeholder="Type to search"
         />
       )}
     </>

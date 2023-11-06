@@ -1,9 +1,9 @@
 .container {
   display: grid;
   place-items: center;
-  margin-top: 2rem;
+  margin-top: 9rem;
   width: 100%;
-  background-image: linear-gradient(90deg, #45b39d, #16a085);
+  background: #334154;
   border-radius: 3%;
   padding: 1.5rem 6rem;
   filter: drop-shadow(1px 1px 5px #0e6655);
@@ -15,6 +15,7 @@
   > h1 {
     margin: 1rem 0;
     font-size: 2.8rem;
+    color: white;
   }
   > form {
     display: flex;
@@ -28,7 +29,7 @@
       font-size: 1.2rem;
       transition: all 0.3s ease-in-out;
       background: transparent;
-      border-bottom: 2px solid #03453e;
+      border-bottom: 2px solid #0fddc7;
       &:focus {
         outline: none;
       }
@@ -36,8 +37,9 @@
     > button {
       padding: 0.5rem 1rem;
       border: none;
-      border-radius: 50px;
+      border-radius: 8px;
       background-color: #0e6655;
+      margin-right: 10px;
       color: #fff;
       font-size: 1.2rem;
       transition: all 0.3s ease-in-out;
@@ -55,6 +57,7 @@
     overflow: auto;
     max-height: 15rem;
     padding: 0.5rem;
+    background: #fff;
     > .todo-item {
       margin: 1rem 0;
       display: flex;
@@ -83,7 +86,6 @@
         display: inline-block;
         width: 100%;
         padding: 0.3rem 1rem;
-        border-radius: 50px;
         background-color: #fff;
         border: none;
         color: #000;
@@ -105,8 +107,8 @@
         width: 25%;
         padding: 0.3rem 1rem;
         border-radius: 5px;
-        background-color: #f1c40f;
-        color: #000;
+        background: #14b8a6;
+        color: #fff;
         font-size: 0.8rem;
         transition: all 0.3s ease-in-out;
         border: none;
@@ -147,6 +149,42 @@
 .completed {
   text-decoration: line-through;
   color: #ec743c;
+}
+
+.loginForm {
+  width: 100%;
+  margin-top: 10px;
+  > input {
+    padding: 10px;
+    width: 80%;
+    border-radius: 10px;
+    border: none;
+    margin-right: 5px;
+  }
+  > button {
+    padding: 10px 14px;
+    border-radius: 10px;
+    outline: none;
+    border: none;
+    cursor: pointer;
+  }
+}
+.showError {
+  margin-top: 10px;
+}
+
+.searchBtn {
+  padding: 8.1px 12px;
+  background: #f87315;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-size: 1.1rem;
+  border-radius: 8px;
+  margin: 10px 0;
+  position: absolute;
+  top: 7.2rem;
+  right: 19.1px;
 }
 
 @media screen and (max-width: 720px) {
